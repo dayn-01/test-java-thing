@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.text.*;
 import java.util.*;
-import java.time.*
+import java.time.*;
 
 //create student object
 class StudentInfo {
