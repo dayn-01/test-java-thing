@@ -1,15 +1,9 @@
-package CCE103PROJECT;
-
-import java.awt.*;
 import javax.swing.*;
-import java.text.*;
-import java.util.*;
-import java.time.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.time.format.DateTimeFormatter;
+import java.util.*;
 
-//create student object
 class Student {
     private String name;
     private int id;
@@ -18,7 +12,7 @@ class Student {
     public Student(String name, int id) {
         this.name = name;
         this.id = id;
-        this.present = true;
+        this.present = false;
     }
 
     public String getName() {
@@ -38,137 +32,38 @@ class Student {
     }
 }
 
-
-public class Final extends JFrame implements ActionListener {
-	
-	JLabel
-	AppTitle,
-	StudentName, 
-	StudentID,
-	DateNowLabel, 
-	DateNowData,
-	AttendanceStatus,
-	StudentCourse,
-	StudentYear;
-
-	JTextField 
-	FieldStudentName, 
-	FieldStudentID;
-	
-	JPanel UIPanel;
-	
-	JButton 
-	ButtonUpdateTable, 
-	ButtonAddStudentAttendance,
-	ButtonEditStudentAttendance,
-	ButtonDeleteStudentAttendance;
-	
-	JComboBox 
-	ComboStudentyear,
-	ComboStudentCourse;
-
-	private ArrayList<Student> students;
+public class AttendanceSystem extends JFrame implements ActionListener {
+    private ArrayList<Student> students;
     private File file;
     private JTextField nameField;
     private JTextField idField;
     private JCheckBox presentBox;
 
+    public AttendanceSystem() {
+        super("Student Attendance System");
+        students = new ArrayList<>();
+        file = new File("attendance.txt");
 
-	public Final() {	
-		
-		JButton addButton = new JButton("Add Student");
+        JPanel addPanel = new JPanel(new GridLayout(3, 2));
+        addPanel.add(new JLabel("Name:"));
+        nameField = new JTextField();
+        addPanel.add(nameField);
+        addPanel.add(new JLabel("ID:"));
+        idField = new JTextField();
+        addPanel.add(idField);
+        addPanel.add(new JLabel("Present:"));
+        presentBox = new JCheckBox();
+        addPanel.add(presentBox);
+
+        JButton addButton = new JButton("Add Student");
         addButton.addActionListener(this);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton);
-		
-		//app title
-		setTitle("Student Attendance Monitoring System");
-		JLabel label = new JLabel("");
-		add(label);	
-		
-		//adding label info
-		//app title label
-		JLabel AppTitle = new JLabel("Student Attendance Monitoring System");
-		AppTitle.setFont(new Font("Arial Black ", Font.BOLD, 20));
-		AppTitle.setBounds(320,10,500,80);
-		setSize(1000,800);	
-		getContentPane().setBackground(Color.PINK);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setLocationRelativeTo(null); 
-		add(AppTitle);
-		
-		//panel
-		UIPanel = new JPanel();
-		add(UIPanel);
-		setLayout(null);
-		
-		//Student Name
-		StudentName = new JLabel("Enter Student's Full Name :");
-		StudentName.setBounds(50,100,160,50);
-		add(StudentName);
-		
-		FieldStudentName = new JTextField(20);
-		FieldStudentName.setBounds(210,110,200,30);
-		add(FieldStudentName);
-		
-		//Student ID
-		StudentID = new JLabel("ID No :");
-		StudentID.setBounds(450,100,100,50);
-		add(StudentID);
-		 
-		FieldStudentID = new JTextField(20);
-		FieldStudentID.setBounds(490,110,100,30);
-		add(FieldStudentID);
-		 
-		//Attendance Date Now
-		DateNowLabel = new JLabel("AttendDate(M/D/Y):");
-		DateNowLabel.setBounds(630, 100,105, 50);
-		add(DateNowLabel);
-		
-		DateNowData = new JLabel();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		LocalDateTime now = LocalDateTime.now();
-		String formattedDateTime = now.format(formatter);
-		DateNowData.setText(formattedDateTime);
-		DateNowData.setBounds(745,110,250,30);
-		add(DateNowData);
-		
-		//attendance status
-		presentBox = new JCheckBox();
-		presentBox.setBounds(50, 200, 80, 25);
-		add(presentBox);
 
-		
-		//Course and Year
-		
-		StudentYear = new JLabel("Grade/Year Level : ");
-		StudentYear.setBounds(200,150,160,80);
-		add(StudentYear);
-
-		
-		StudentCourse = new JLabel("Course: ");
-		StudentCourse.setBounds(450,150,160,80);
-		add(StudentCourse);
-		
-		String [] year = {"1st year", "2nd year", "3rd year", "4th year"};
-		ComboStudentyear = new JComboBox(year);
-		ComboStudentyear.setBounds(310,180,100,25);
-		add(ComboStudentyear);
-		
-		 
-		String [] course = {"BS in Information Technology", "BS in Computer Science", "OTHERS"};
-		ComboStudentCourse = new JComboBox(course);
-		ComboStudentCourse.setBounds(450,205,200,30);
-		add(ComboStudentCourse);
-		
-		// buttons
-		ButtonAddStudentAttendance = new JButton("Add Student");
-		ButtonAddStudentAttendance.addActionListener(this);
-		add(ButtonAddStudentAttendance);
-		
-		setVisible(true);
-		setLocationRelativeTo(null);
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(addPanel, BorderLayout.CENTER);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 		
 		JButton displayButton = new JButton("Display Attendance");
 		displayButton.addActionListener(new ActionListener() {
@@ -178,16 +73,13 @@ public class Final extends JFrame implements ActionListener {
 		});
 		buttonPanel.add(displayButton);
 
-	}
-	
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		new Final();
-			
-	}
+        getContentPane().add(mainPanel);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(300, 150);
+        setVisible(true);
+    }
 
-	public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Add Student")) {
             String name = nameField.getText();
             int id = Integer.parseInt(idField.getText());
@@ -237,6 +129,10 @@ public class Final extends JFrame implements ActionListener {
             e.printStackTrace();
         }
     }
+
+    public static void main(String[] args) {
+        new AttendanceSystem();
+    }
 	
 	public void displayAttendance() {
     try {
@@ -274,4 +170,5 @@ public class Final extends JFrame implements ActionListener {
         System.out.println("Error reading attendance from file.");
         e.printStackTrace();
     }
+}
 }
