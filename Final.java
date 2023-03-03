@@ -7,6 +7,7 @@ import java.util.*;
 import java.time.*;
 import java.awt.event.*;
 import java.io.*;
+import java.time.format.DateTimeFormatter;
 
 //create student object
 class Student {
@@ -66,11 +67,9 @@ public class Final extends JFrame implements ActionListener {
 	ComboStudentyear,
 	ComboStudentCourse;
 	
-	JTable table;
-	JScrollPane sc;
-	DefaultTableModel des;
+	JPanel buttonPanel = new JPanel();
+    buttonPanel.add(addButton);
 
-	int row;
 	private ArrayList<Student> students;
     private File file;
     private JTextField nameField;
@@ -124,7 +123,7 @@ public class Final extends JFrame implements ActionListener {
 		DateNowLabel.setBounds(630, 100,105, 50);
 		add(DateNowLabel);
 		
-		DateNowData = new Jlabel();
+		DateNowData = new JLabel();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		String formattedDateTime = now.format(formatter);
