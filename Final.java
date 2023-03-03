@@ -66,9 +66,6 @@ public class Final extends JFrame implements ActionListener {
 	JComboBox 
 	ComboStudentyear,
 	ComboStudentCourse;
-	
-	JPanel buttonPanel = new JPanel();
-    buttonPanel.add(addButton);
 
 	private ArrayList<Student> students;
     private File file;
@@ -78,6 +75,12 @@ public class Final extends JFrame implements ActionListener {
 
 
 	public Final() {	
+		
+		JButton addButton = new JButton("Add Student");
+        addButton.addActionListener(this);
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(addButton);
 		
 		//app title
 		setTitle("Student Attendance Monitoring System");
