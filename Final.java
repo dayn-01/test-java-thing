@@ -8,7 +8,7 @@ import java.util.*;
 import java.time.*
 
 //create student object
-class Student {
+class StudentInfo {
     private String name;
     private int id;
     private boolean present;
@@ -40,27 +40,34 @@ class Student {
 public class Final extends JFrame implements ActionListener {
 	
 	JLabel
-	AppTitle
+	AppTitle,
 	StudentName, 
 	StudentID,
 	DateNowLabel, 
 	DateNowData,
 	AttendanceStatus,
-	StudentGrade,
-	StudentCourse
+	StudentCourse,
+	StudentYear;
 
 	JTextField 
 	FieldStudentName, 
-	FieldStudentID,
+	FieldStudentID;
 	
-	bf1,bf2, bf3, yf;
 	JPanel UIPanel;
-	JButton add, display, edit, delete;
 	
-	JTextArea snr,idr, adr, yr, asr, cr;
-	JRadioButton pr, ab;
-	JCheckBox ylc1, ylc2, ylc3, ylc4;
-	JComboBox c;
+	JButton 
+	ButtonUpdateTable, 
+	ButtonEditStudentAttendance,
+	ButtonDeleteStudentAttendance;
+	
+	JRadioButton 
+	RadioStudentPresent, 
+	RadioStudentAbsent;
+	
+	JComboBox 
+	ComboStudentyear,
+	ComboStudentCourse;
+	
 	JTable table;
 	JScrollPane sc;
 	DefaultTableModel des;
@@ -119,76 +126,39 @@ public class Final extends JFrame implements ActionListener {
 		LocalDateTime now = LocalDateTime.now();
 		String formattedDateTime = now.format(formatter);
 		DateNowData.setText(formattedDateTime);
-		DateNowData.setBounds(745,110,30,30);
+		DateNowData.setBounds(745,110,250,30);
 		add(DateNowData);
 		
+		//attendance status
+		RadioStudentPresent = new JRadioButton("Present");
+		RadioStudentPresent.setBounds(50, 200, 80, 25);
+		add(RadioStudentPresent);
 		
-		 as = new JLabel("Attendance Status");
-		 as.setBounds(50, 150,160, 80);
-		 add(as);
+		RadioStudentAbsent = new JRadioButton("Absent");
+		RadioStudentAbsent.setBounds(50, 220, 100, 25);
+		add(RadioStudentAbsent);
+		
+		//Course and Year
+		
+		StudentYear = new JLabel("Grade/Year Level : ");
+		StudentYear.setBounds(200,150,160,80);
+		add(StudentYear);
+
+		
+		StudentCourse = new JLabel("Course: ");
+		StudentCourse.setBounds(450,150,160,80);
+		add(StudentCourse);
+		
+		String [] course = {"1st year", "2nd year", "3rd year", "4th year"};
+		ComboStudentyear = new JComboBox(course);
+		ComboStudentyear.setBounds(310,180,100,25);
+		add(ComboStudentyear);
+		
 		 
-		 pr = new JRadioButton("Present");
-		 pr.setBackground(Color.PINK);
-		 pr.setBounds(50, 200, 80, 25);
-		 add(pr);
-		 
-		 ab = new JRadioButton("Absent");
-		 ab.setBackground(Color.PINK);
-		 ab.setBounds(50, 220, 100, 25);
-		 add(ab);
-		 
-		 asr = new JTextArea();
-		 asr.setBounds(473,321,142,377);
-		 add(asr);
-		 
-		 
-		 yl = new JLabel("Grade/Year Level : ");
-		 yl.setBounds(200,150,160,80);
-		 add(yl);
-		 
-		 yr = new JTextArea();
-		 yr.setBounds(615,321,142,377);
-		 add(yr);
-		 
-		 ylc1 = new JCheckBox("1st Year");
-		 ylc1.setBackground(Color.PINK);
-		 ylc1.setBounds(310,180,100,25);
-	     add(ylc1);
-			
-		 ylc2 = new JCheckBox("2nd Year");
-		 ylc2.setBackground(Color.PINK);
-		 ylc2.setBounds(310,200,100,25);
-	     add(ylc2);
-			
-		 ylc3 = new JCheckBox("3rd Year");
-		 ylc3.setBackground(Color.PINK);
-		 ylc3.setBounds(310,220,100,25);
-		 add(ylc3);
-				 
-		 ylc4 = new JCheckBox("4th Year");
-		 ylc4.setBackground(Color.PINK);
-		 ylc4.setBounds(310,240,100,25);
-		 add(ylc4);
-		 
-		 bc = new JLabel("Course: ");
-		 bc.setBounds(450,150,160,80);
-		 add(bc);
-		 
-		 cr = new JTextArea();		 
-		 cr.setBounds(754,321,142,377);
-		 add(cr);
-		 
-		 String [] course = {"BS in Information Technology", "BS in Computer Science", "OTHERS"};
-		 c = new JComboBox(course);
-		 c.setBounds(450,205,200,30);
-		 add(c);
-		 	 
-		 
-		 add = new JButton("Add");
-		 add.setBackground(Color.WHITE);
-		 add.setFont(new Font("Arial Black ", Font.BOLD,15 ));
-		 add.setBounds(720,190,100,30);
-		 add(add);
+		String [] course = {"BS in Information Technology", "BS in Computer Science", "OTHERS"};
+		ComboStudentCourse = new JComboBox(course);
+		ComboStudentCourse.setBounds(450,205,200,30);
+		add(ComboStudentCourse);
 		 
 		 display = new JButton("Display");
 		 display.setBackground(Color.WHITE);
