@@ -7,7 +7,6 @@ import java.util.*;
 import java.time.*;
 import java.awt.event.*;
 import java.io.*;
-import java.util.*;
 
 //create student object
 class Student {
