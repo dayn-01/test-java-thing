@@ -66,7 +66,7 @@ public class AttendanceSystem extends JFrame implements ActionListener {
 	FieldStudentName, 
 	FieldStudentID;
 	
-	private JPanel UIPanel;
+	private JPanel addPanel;
 	
 	private JButton 
 	ButtonUpdateTable, 
@@ -75,11 +75,9 @@ public class AttendanceSystem extends JFrame implements ActionListener {
 	ButtonDeleteStudentAttendance;
 
 	private JComboBox<String> ComboStudentyear, ComboStudentCourse;
-    private ArrayList<Student> students;
-    private File file;
-    private JTextField FieldStudentName;
-    private JTextField FieldStudentID;
-    private JCheckBox presentBox,absentBox;
+    	private ArrayList<Student> students;
+   	private File file;
+    	private JCheckBox presentBox,absentBox;
 
     public AttendanceSystem() {
         super("Student Attendance System");
