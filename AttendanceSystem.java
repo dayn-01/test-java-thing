@@ -14,9 +14,9 @@ import java.util.*;
 class Student {
 	private String year;
 	private String course;
-    private String name;
-    private int id;
-    private boolean present;
+    	private String name;
+    	private int id;
+    	private boolean present;
 
     public Student(String name, int id,String course, String year) {
         this.name = name;
@@ -73,19 +73,8 @@ public class AttendanceSystem extends JFrame implements ActionListener {
 	ButtonAddStudentAttendance,
 	ButtonEditStudentAttendance,
 	ButtonDeleteStudentAttendance;
-	
-	private JComboBox 
-	FieldStudentID,
-	ComboStudentCourse;
 
-	private ArrayList<Student> students;
-    private File file;
-    private JTextField FieldStudentName;
-    private JTextField FieldStudentID;
-    private JCheckBox presentBox;
-	
-	
-	private JComboBox<String> ComboStudentyear, StudentCourse;
+	private JComboBox<String> ComboStudentyear, ComboStudentCourse;
     private ArrayList<Student> students;
     private File file;
     private JTextField FieldStudentName;
