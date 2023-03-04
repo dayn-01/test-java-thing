@@ -191,11 +191,16 @@ public class AttendanceSystem extends JFrame implements ActionListener {
 
             String[] columns = { "ID", "Name", "Attendance Status","Year" ,"Course"};
             String[][] rows = new String[data.size() - 1][columns.length];
+	    String isAbsent = "Present";
+	
             for (int i = 1; i < data.size(); i++) {
                 String[] row = data.get(i).split(",");
                 rows[i - 1][0] = row[0].trim();
                 rows[i - 1][1] = row[1].trim();
-                rows[i - 1][2] = row[2].trim();
+                if(row[2].trim().equals("false")) { 
+        		isAbsent = "Absent";
+    		}
+    		rows[i - 1][2] = isAbsent;
                 rows[i - 1][3] = row[3].trim();
                 rows[i - 1][4] = row[4].trim();
             }
