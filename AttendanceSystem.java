@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
+import java.time.format.DateTimeFormatter;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -50,38 +51,123 @@ class Student {
 }
 
 public class AttendanceSystem extends JFrame implements ActionListener {
-	private JComboBox<String> yearField, courseField;
+	
+	private JLabel
+	AppTitle,
+	StudentName, 
+	StudentID,
+	DateNowLabel, 
+	DateNowData,
+	AttendanceStatus,
+	StudentCourse,
+	StudentYear;
+
+	private JTextField 
+	FieldStudentName, 
+	FieldStudentID;
+	
+	private JPanel UIPanel;
+	
+	private JButton 
+	ButtonUpdateTable, 
+	ButtonAddStudentAttendance,
+	ButtonEditStudentAttendance,
+	ButtonDeleteStudentAttendance;
+	
+	private JComboBox 
+	FieldStudentID,
+	ComboStudentCourse;
+
+	private ArrayList<Student> students;
+    private File file;
+    private JTextField FieldStudentName;
+    private JTextField FieldStudentID;
+    private JCheckBox presentBox;
+	
+	
+	private JComboBox<String> ComboStudentyear, StudentCourse;
     private ArrayList<Student> students;
     private File file;
-    private JTextField nameField;
-    private JTextField idField;
+    private JTextField FieldStudentName;
+    private JTextField FieldStudentID;
     private JCheckBox presentBox,absentBox;
 
     public AttendanceSystem() {
         super("Student Attendance System");
         students = new ArrayList<>();
         file = new File("attendance.txt");
-
-        JPanel addPanel = new JPanel(new GridLayout(3,2));
-		 //name
-        
-        addPanel.add(new JLabel("Name:"));
-        nameField = new JTextField();
-        nameField.setBounds(50,100,160,50);
-        addPanel.add(nameField);
+		
+		//app title
+		setTitle("Student Attendance Monitoring System");
+		JLabel label = new JLabel("");
+		add(label);	
+		
+		//app title label
+		JLabel AppTitle = new JLabel("Student Attendance Monitoring System");
+		AppTitle.setFont(new Font("Arial Black ", Font.BOLD, 20));
+		AppTitle.setBounds(320,10,500,80);
+		setSize(1000,800);	
+		getContentPane().setBackground(Color.PINK);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setLocationRelativeTo(null); 
+		add(AppTitle);
+		
+		//panel
+		addPanel = new JPanel();
+		add(addPanel);
+		setLayout(null);
+		
+		
+		//name
+		StudentName = new JLabel("Enter Student's Full Name :");
+		StudentName.setBounds(50,100,160,50);
+		addPanel.add(StudentName);
+		
+		FieldStudentName = new JTextField(20);
+		FieldStudentName.setBounds(210,110,200,30);
+		addPanel.add(FieldStudentName);
+	
         //id
-        addPanel.add(new JLabel("ID:"));
-        idField = new JTextField();
-        addPanel.add(idField);
+		StudentID = new JLabel("ID No :");
+		StudentID.setBounds(450,100,100,50);
+		addPanel.add(StudentID);
+		 
+		FieldStudentID = new JTextField(20);
+		FieldStudentID.setBounds(490,110,100,30);
+		addPanel.add(FieldStudentID);	
+		
+		//date now
+		DateNowLabel = new JLabel("AttendDate(M/D/Y):");
+		DateNowLabel.setBounds(630, 100,105, 50);
+		addPanel.add(DateNowLabel);
+		
+		DateNowData = new JLabel();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+		String formattedDateTime = now.format(formatter);
+		DateNowData.setText(formattedDateTime);
+		DateNowData.setBounds(745,110,250,30);
+		addPanel.add(DateNowData);
+		
         //year
-        addPanel.add(new JLabel("year:"));      
-        yearField = new JComboBox<>(new String[]{"1st year", "2nd year", "3rd year", "4th year"});
-        addPanel.add(yearField);
+		StudentYear = new JLabel("Grade/Year Level : ");
+		StudentYear.setBounds(200,150,160,80);
+		addPanel.add(StudentYear);
+		
+		ComboStudentyear = new JComboBox<>(new String[]{"1st year", "2nd year", "3rd year", "4th year"});
+		ComboStudentyear.setBounds(310,180,100,25);
+		addPanel.add(ComboStudentyear);
+		
         //course
-        addPanel.add(new JLabel("course:"));
-        courseField = new JComboBox<>(new String[]{"BS in Information Technology", "BS in Computer Science", "OTHERS"});
-        addPanel.add(courseField);     
-        //present
+		StudentCourse = new JLabel("Course: ");
+		StudentCourse.setBounds(450,150,160,80);
+		addPanel.add(StudentCourse);
+		
+		ComboStudentCourse = new JComboBox<>(new String[]{"BS in Information Technology", "BS in Computer Science", "OTHERS"});
+		ComboStudentCourse.setBounds(450,205,200,30);
+		addPanel.add(ComboStudentCourse);
+		
+		//present
         addPanel.add(new JLabel("Present:"));
         presentBox = new JCheckBox();
         addPanel.add(presentBox);
@@ -89,13 +175,14 @@ public class AttendanceSystem extends JFrame implements ActionListener {
         addPanel.add(new JLabel("Absent:"));
         absentBox = new JCheckBox();
         addPanel.add(absentBox);
-       
-            
-        
+		        
 
         JButton addButton = new JButton("Add Student");
         addButton.addActionListener(this);
+		
+		
 
+		//for showing things 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton);
 
@@ -118,10 +205,10 @@ public class AttendanceSystem extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Add Student")) {
-            String name = nameField.getText();
-            String course = (String) courseField.getSelectedItem();
-            String year = (String) yearField.getSelectedItem();
-            int id = Integer.parseInt(idField.getText());
+            String name = FieldStudentName.getText();
+            String course = (String) StudentCourse.getSelectedItem();
+            String year = (String) ComboStudentyear.getSelectedItem();
+            int id = Integer.parseInt(FieldStudentID.getText());
             boolean present = presentBox.isSelected();
             students.add(new Student(name, id, course, year));
             if (present) {
@@ -131,8 +218,8 @@ public class AttendanceSystem extends JFrame implements ActionListener {
             }
             saveAttendance();
             JOptionPane.showMessageDialog(this, "Student added.");
-            nameField.setText("");
-            idField.setText("");
+            FieldStudentName.setText("");
+            FieldStudentID.setText("");
             presentBox.setSelected(false);
         }
     }
@@ -191,16 +278,16 @@ public class AttendanceSystem extends JFrame implements ActionListener {
 
             String[] columns = { "ID", "Name", "Attendance Status","Year" ,"Course"};
             String[][] rows = new String[data.size() - 1][columns.length];
-	    String isAbsent = "Present";
-	
+			String isAbsent = "Present";
+			
             for (int i = 1; i < data.size(); i++) {
                 String[] row = data.get(i).split(",");
                 rows[i - 1][0] = row[0].trim();
                 rows[i - 1][1] = row[1].trim();
-                if(row[2].trim().equals("false")) { 
-        		isAbsent = "Absent";
-    		}
-    		rows[i - 1][2] = isAbsent;
+				if(row[2].trim() == false) {
+					isAbsent = "Absent";
+				}
+                rows[i - 1][2] = isAbsent;
                 rows[i - 1][3] = row[3].trim();
                 rows[i - 1][4] = row[4].trim();
             }
